@@ -1,7 +1,7 @@
 "use client";
 
-import { motion } from "motion/react";
-import { AlertTriangle, Check, CloudFog, Info, Leaf, Zap } from "lucide-react";
+import {motion} from "motion/react";
+import {AlertTriangle, Check, CloudFog, Info, Leaf, Zap} from "lucide-react";
 import {
 	Bar,
 	BarChart,
@@ -65,9 +65,9 @@ export default function PolicyComparisonPage() {
 				{policyData.map((policy, idx) => (
 					<motion.div
 						key={policy.id}
-						initial={{ opacity: 0, y: 20 }}
-						animate={{ opacity: 1, y: 0 }}
-						transition={{ delay: idx * 0.1 }}
+						initial={{opacity: 0, y: 20}}
+						animate={{opacity: 1, y: 0}}
+						transition={{delay: idx * 0.1}}
 						className={`relative flex flex-col overflow-hidden rounded-2xl border p-6 ${
 							policy.isBest
 								? "border-emerald-500 bg-emerald-50/20 shadow-lg shadow-emerald-500/10 ring-1 ring-emerald-500/50"
@@ -75,7 +75,8 @@ export default function PolicyComparisonPage() {
 						}`}
 					>
 						{policy.isBest && (
-							<div className="absolute right-0 top-0 rounded-bl-lg bg-emerald-500 px-3 py-1 text-xs font-bold text-white">
+							<div
+								className="absolute right-0 top-0 rounded-bl-lg bg-emerald-500 px-3 py-1 text-xs font-bold text-white">
 								Recommended
 							</div>
 						)}
@@ -88,25 +89,26 @@ export default function PolicyComparisonPage() {
 						<div className="mb-6 space-y-4">
 							<div className="flex items-center justify-between border-b border-slate-100 pb-2">
 								<span className="flex items-center gap-1 text-sm text-slate-500">
-									<Zap className="h-4 w-4" /> Demand
+									<Zap className="h-4 w-4"/> Demand
 								</span>
 								<span className="font-semibold text-slate-800">{policy.demand} MW</span>
 							</div>
 							<div className="flex items-center justify-between border-b border-slate-100 pb-2">
 								<span className="flex items-center gap-1 text-sm text-slate-500">
-									<Leaf className="h-4 w-4 text-emerald-500" /> Gen
+									<Leaf className="h-4 w-4 text-emerald-500"/> Gen
 								</span>
 								<span className="font-semibold text-slate-800">{policy.generation} MW</span>
 							</div>
 							<div className="flex items-center justify-between border-b border-slate-100 pb-2">
 								<span className="flex items-center gap-1 text-sm text-slate-500">
-									<CloudFog className="h-4 w-4 text-rose-500" /> CO2
+									<CloudFog className="h-4 w-4 text-rose-500"/> CO2
 								</span>
 								<span className="font-semibold text-slate-800">{policy.co2} kt</span>
 							</div>
 							<div className="flex items-center justify-between border-b border-slate-100 pb-2">
 								<span className="text-sm text-slate-500">Net Surplus</span>
-								<span className={`font-semibold ${policy.surplus > 0 ? "text-emerald-600" : "text-rose-600"}`}>
+								<span
+									className={`font-semibold ${policy.surplus > 0 ? "text-emerald-600" : "text-rose-600"}`}>
 									{policy.surplus > 0 ? "+" : ""}
 									{policy.surplus} MW
 								</span>
@@ -120,9 +122,9 @@ export default function PolicyComparisonPage() {
 						<div className="mt-auto flex items-center justify-between border-t border-slate-100 pt-4">
 							<div className="flex items-center gap-1.5">
 								{policy.status === "Feasible" ? (
-									<Check className="h-4 w-4 text-emerald-500" />
+									<Check className="h-4 w-4 text-emerald-500"/>
 								) : (
-									<AlertTriangle className="h-4 w-4 text-amber-500" />
+									<AlertTriangle className="h-4 w-4 text-amber-500"/>
 								)}
 								<span
 									className={`text-sm font-medium ${
@@ -146,28 +148,30 @@ export default function PolicyComparisonPage() {
 			</div>
 
 			<motion.div
-				initial={{ opacity: 0, y: 20 }}
-				animate={{ opacity: 1, y: 0 }}
-				transition={{ delay: 0.4 }}
+				initial={{opacity: 0, y: 20}}
+				animate={{opacity: 1, y: 0}}
+				transition={{delay: 0.4}}
 				className="mt-8 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm"
 			>
 				<div className="mb-6 flex items-center gap-2">
-					<Info className="h-5 w-5 text-indigo-500" />
+					<Info className="h-5 w-5 text-indigo-500"/>
 					<h2 className="text-lg font-bold text-slate-900">Key Metrics Comparison</h2>
 				</div>
 
 				<div className="h-80 w-full">
 					<ResponsiveContainer width="100%" height="100%">
-						<BarChart data={policyData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
-							<CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e2e8f0" />
-							<XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: "#475569" }} />
-							<YAxis yAxisId="left" axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: "#475569" }} />
+						<BarChart data={policyData} margin={{top: 20, right: 30, left: 20, bottom: 5}}>
+							<CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e2e8f0"/>
+							<XAxis dataKey="name" axisLine={false} tickLine={false}
+							       tick={{fontSize: 12, fill: "#475569"}}/>
+							<YAxis yAxisId="left" axisLine={false} tickLine={false}
+							       tick={{fontSize: 12, fill: "#475569"}}/>
 							<YAxis
 								yAxisId="right"
 								orientation="right"
 								axisLine={false}
 								tickLine={false}
-								tick={{ fontSize: 12, fill: "#475569" }}
+								tick={{fontSize: 12, fill: "#475569"}}
 							/>
 							<Tooltip
 								contentStyle={{
@@ -175,10 +179,11 @@ export default function PolicyComparisonPage() {
 									border: "none",
 									boxShadow: "0 4px 6px -1px rgb(0 0 0 / 0.1)",
 								}}
-								cursor={{ fill: "#f8fafc" }}
+								cursor={{fill: "#f8fafc"}}
 							/>
-							<Legend iconType="circle" wrapperStyle={{ paddingTop: "10px" }} />
-							<Bar yAxisId="left" dataKey="demand" name="Demand (MW)" fill="#3b82f6" radius={[4, 4, 0, 0]} barSize={40} />
+							<Legend iconType="circle" wrapperStyle={{paddingTop: "10px"}}/>
+							<Bar yAxisId="left" dataKey="demand" name="Demand (MW)" fill="#3b82f6" radius={[4, 4, 0, 0]}
+							     barSize={40}/>
 							<Bar
 								yAxisId="left"
 								dataKey="generation"
