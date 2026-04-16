@@ -81,6 +81,8 @@
 }
 
 @theme inline {
+	--font-sans: var(--font-ibm-plex-sans-thai);
+
 	--color-background: var(--background);
 	--color-foreground: var(--foreground);
 	--color-card: var(--card);
