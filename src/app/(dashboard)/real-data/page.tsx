@@ -1,38 +1,40 @@
 "use client";
 
-import type {ReactNode} from "react";
 import {useEffect, useRef, useState} from "react";
 import {AnimatePresence, motion} from "motion/react";
 import {Activity, Box, Check, ChevronDown, Globe, MapPin, Search} from "lucide-react";
 
 import StatCard from "@/app/(dashboard)/components/StatCard";
 import ChartCard, {type SeriesPoint} from "@/app/(dashboard)/components/ChartCard";
-import { type Country, countries, highlightMatch } from "@/app/(dashboard)/components/CountrySearch";
+import { type Country, highlightMatch } from "@/app/(dashboard)/components/CountrySearch";
 
-function generateMockData(cleanBase: number, fossilBase: number, type: "capacity" | "generation" | "emissions") {
-	const data: SeriesPoint[] = [];
-	const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+const monthNames = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+const monthName = (m: number) => monthNames[m - 1];
 
-	for (let i = 0; i < 12; i += 1) {
-		const cleanVariance = 1 + (Math.random() * 0.2 - 0.1);
-		const fossilVariance = 1 + (Math.random() * 0.15 - 0.075);
+type SourceRow = {
+	Area: string;
+	Year: number;
+	Month: number;
+	"GDP_yearly (TBTUUSDPP)": number;
+	"Net_Imports_yearly (TWh)": number;
+	"Population_yearly (MBTUPP)": number;
+	"Capacity_Clean_yearly (GW)": number;
+	"Capacity_Fossil_yearly (GW)": number;
+	"Electricity generation_Clean (TWh)": number;
+	"Electricity generation_Fossil (TWh)": number;
+	"Power sector emissions_Clean (mtCO2)": number;
+	"Power sector emissions_Fossil (mtCO2)": number;
+};
 
-		if (type === "emissions") {
-			data.push({
-				name: months[i],
-				clean: 0,
-				fossil: Math.round(fossilBase * fossilVariance),
-			});
-		} else {
-			data.push({
-				name: months[i],
-				clean: Math.round(cleanBase * cleanVariance),
-				fossil: Math.round(fossilBase * fossilVariance),
-			});
-		}
-	}
+type RawDataRow = {
+	area: string; year: number; month: number;
+	capacity_clean: number; capacity_fossil: number;
+	gen_clean: number; gen_fossil: number;
+	emissions_clean: number; emissions_fossil: number;
+};
 
-	return data;
+function aggregateYear(rows: RawDataRow[]): RawDataRow[] {
+	return rows.sort((a, b) => a.month - b.month);
 }
 
 const years = Array.from({length: 25}, (_, i) => 2000 + i).reverse();
@@ -40,8 +42,9 @@ const monthsList = ["All Year", "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul",
 
 export default function RealDataPage() {
 	const [isLoading, setIsLoading] = useState(false);
-	const [searchQuery, setSearchQuery] = useState("Thailand");
-	const [selectedCountry, setSelectedCountry] = useState<Country>(countries[0]);
+	const [countries, setCountries] = useState<Country[]>([]);
+	const [searchQuery, setSearchQuery] = useState("");
+	const [selectedCountry, setSelectedCountry] = useState<Country | null>(null);
 	const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 	const [year, setYear] = useState(2023);
 	const [month, setMonth] = useState("All Year");
@@ -64,35 +67,110 @@ export default function RealDataPage() {
 	useEffect(() => {
 		setIsLoading(true);
 
-		const timeout = setTimeout(() => {
-			let cleanBase = 15000;
-			let fossilBase = 35000;
+		fetch("/data/emissions.json")
+			.then((res) => res.json())
+			.then((raw: SourceRow[]) => {
+				const latestCountryMap = new Map<string, SourceRow>();
 
-			if (selectedCountry.code === "SG") {
-				cleanBase = 1000;
-				fossilBase = 12000;
-			}
+				for (const row of raw) {
+					const existing = latestCountryMap.get(row.Area);
 
-			if (selectedCountry.code === "VN") {
-				cleanBase = 25000;
-				fossilBase = 22000;
-			}
+					if (
+						!existing ||
+						row.Year > existing.Year ||
+						(row.Year === existing.Year && row.Month > existing.Month)
+					) {
+						latestCountryMap.set(row.Area, row);
+					}
+				}
 
-			if (selectedCountry.code === "ID") {
-				cleanBase = 12000;
-				fossilBase = 65000;
-			}
+				const countriesFromData: Country[] = Array.from(latestCountryMap.values())
+					.map((row) => ({
+						name: row.Area,
+						gdp: row["GDP_yearly (TBTUUSDPP)"].toFixed(2),
+						import: row["Net_Imports_yearly (TWh)"].toFixed(2),
+						pop: row["Population_yearly (MBTUPP)"].toFixed(2),
+						flag: "🌍",
+					}))
+					.sort((a, b) => a.name.localeCompare(b.name));
 
-			setCapacityData(generateMockData(cleanBase, fossilBase, "capacity"));
-			setGenerationData(generateMockData(cleanBase * 0.8, fossilBase * 0.85, "generation"));
-			setEmissionsData(generateMockData(0, fossilBase * 2.5, "emissions"));
-			setIsLoading(false);
-		}, 1200);
+				setCountries(countriesFromData);
 
-		return () => clearTimeout(timeout);
+				const activeCountry =
+					selectedCountry ??
+					countriesFromData.find((country) => country.name === "Thailand") ??
+					countriesFromData[0] ??
+					null;
+
+				if (!selectedCountry && activeCountry) {
+					setSelectedCountry(activeCountry);
+					setSearchQuery(activeCountry.name);
+				}
+
+				if (!activeCountry) {
+					setCapacityData([]);
+					setGenerationData([]);
+					setEmissionsData([]);
+					setIsLoading(false);
+					return;
+				}
+
+				const normalized: RawDataRow[] = raw.map((row) => ({
+					area: row.Area,
+					year: row.Year,
+					month: row.Month,
+					capacity_clean: row["Capacity_Clean_yearly (GW)"],
+					capacity_fossil: row["Capacity_Fossil_yearly (GW)"],
+					gen_clean: row["Electricity generation_Clean (TWh)"],
+					gen_fossil: row["Electricity generation_Fossil (TWh)"],
+					emissions_clean: row["Power sector emissions_Clean (mtCO2)"],
+					emissions_fossil: row["Power sector emissions_Fossil (mtCO2)"],
+				}));
+
+				const filtered = normalized.filter(
+					(row) => row.area === activeCountry.name && row.year === year,
+				);
+
+				const rows =
+					month === "All Year"
+						? aggregateYear(filtered)
+						: filtered.filter((row) => row.month === monthNames.indexOf(month) + 1);
+
+				setCapacityData(
+					rows.map((r) => ({
+						name: monthName(r.month),
+						clean: r.capacity_clean,
+						fossil: r.capacity_fossil,
+					})),
+				);
+
+				setGenerationData(
+					rows.map((r) => ({
+						name: monthName(r.month),
+						clean: r.gen_clean,
+						fossil: r.gen_fossil,
+					})),
+				);
+
+				setEmissionsData(
+					rows.map((r) => ({
+						name: monthName(r.month),
+						clean: r.emissions_clean,
+						fossil: r.emissions_fossil,
+					})),
+				);
+
+				setIsLoading(false);
+			})
+			.catch((error) => {
+				console.error("Failed to load emissions data:", error);
+				setIsLoading(false);
+			});
 	}, [selectedCountry, year, month]);
 
-	const filteredCountries = countries.filter((country) => country.name.toLowerCase().includes(searchQuery.toLowerCase()));
+	const filteredCountries = countries.filter((country) =>
+		country.name.toLowerCase().includes(searchQuery.toLowerCase()),
+	);
 
 	const handleSelectCountry = (country: Country) => {
 		setSelectedCountry(country);
@@ -131,7 +209,7 @@ export default function RealDataPage() {
 								}}
 							/>
 							<div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
-								<span className="text-lg">{selectedCountry.flag}</span>
+								<span className="text-lg">{selectedCountry?.flag ?? "🌍"}</span>
 							</div>
 						</div>
 
@@ -146,10 +224,10 @@ export default function RealDataPage() {
 									{filteredCountries.length > 0 ? (
 										filteredCountries.map((country) => (
 											<div
-												key={country.code}
+												key={country.name}
 												onClick={() => handleSelectCountry(country)}
 												className={`flex cursor-pointer items-center justify-between px-4 py-2.5 hover:bg-[#374151] ${
-													selectedCountry.code === country.code ? "bg-[#374151]/50" : ""
+													selectedCountry?.name === country.name ? "bg-[#374151]/50" : ""
 												}`}
 											>
 												<div className="flex items-center gap-2">
@@ -157,7 +235,7 @@ export default function RealDataPage() {
 													<span
 														className="text-sm font-medium">{highlightMatch(country.name, searchQuery)}</span>
 												</div>
-												{selectedCountry.code === country.code &&
+												{selectedCountry?.name === country.name &&
                                                     <Check className="h-4 w-4 text-[#00FF88]"/>}
 											</div>
 										))
@@ -214,11 +292,11 @@ export default function RealDataPage() {
 				</div>
 
 				<div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-					<StatCard title="GDP Growth" value={selectedCountry.gdp}
+					<StatCard title="GDP Growth" value={selectedCountry?.gdp ?? "-"}
 					          icon={<Activity className="h-5 w-5 text-blue-400"/>} isLoading={isLoading}/>
-					<StatCard title="Energy Import Reliance" value={selectedCountry.import}
+					<StatCard title="Energy Import Reliance" value={selectedCountry?.import ?? "-"}
 					          icon={<Box className="h-5 w-5 text-amber-400"/>} isLoading={isLoading}/>
-					<StatCard title="Total Population" value={selectedCountry.pop}
+					<StatCard title="Total Population" value={selectedCountry?.pop ?? "-"}
 					          icon={<MapPin className="h-5 w-5 text-purple-400"/>} isLoading={isLoading}/>
 				</div>
 
