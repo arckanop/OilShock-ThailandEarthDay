@@ -11,11 +11,7 @@ import {
 	YAxis,
 } from "recharts";
 
-export type SeriesPoint = {
-	name: string;
-	clean: number;
-	fossil: number;
-};
+import {SeriesPoint} from "@/app/(dashboard)/real-data/lib/types";
 
 type ChartCardProps = {
 	title: string;
