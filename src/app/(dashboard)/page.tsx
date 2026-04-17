@@ -23,19 +23,19 @@ import {
 } from "recharts";
 
 const forecastData = [
-	{ month: "Jan", demand: 3100, generation: 3200, co2: 120 },
-	{ month: "Feb", demand: 3000, generation: 3150, co2: 118 },
-	{ month: "Mar", demand: 3250, generation: 3300, co2: 125 },
-	{ month: "Apr", demand: 3600, generation: 3650, co2: 135 },
-	{ month: "May", demand: 3800, generation: 3820, co2: 140 },
-	{ month: "Jun", demand: 3750, generation: 3800, co2: 138 },
+	{ month: "Jan", demand: 5403, generation: 5556, co2: 850 },
+	{ month: "Feb", demand: 4681, generation: 4875, co2: 650 },
+	{ month: "Mar", demand: 4708, generation: 4708, co2: 690 },
+	{ month: "Apr", demand: 4717, generation: 4042, co2: 440 },
+	{ month: "May", demand: 4083, generation: 3472, co2: 310 },
+	{ month: "Jun", demand: 3944, generation: 3236, co2: 310 },
 ];
 
 const nextMonthPrediction = {
-	demand: 3750,
-	generation: 3800,
-	co2: 138,
-	surplus: 50,
+	demand: 4681,
+	generation: 4014,
+	co2: 610,
+	surplus: -667,
 };
 
 const policyData = [
@@ -145,7 +145,7 @@ export default function OverviewPage() {
 									kpi.change.startsWith("-") ? "text-emerald-600" : "text-slate-500"
 								}`}
 							>
-								{kpi.change} vs Last Month
+								{/*{kpi.change} vs Last Month*/}
 							</p>
 						</div>
 						<div className={`rounded-full border p-3 ${kpi.color}`}>{kpi.icon}</div>
@@ -264,7 +264,7 @@ export default function OverviewPage() {
 								<CloudFog className="h-4 w-4 text-emerald-400" />
 								<span className="text-sm font-medium text-emerald-100">CO2 Reduction</span>
 							</div>
-							<span className="font-bold text-emerald-400">{bestPolicy.co2Delta} kt</span>
+							<span className="font-bold text-emerald-400">+34 kt</span>
 						</div>
 						<div className="flex items-center justify-between rounded-xl border border-emerald-700/50 bg-emerald-800/50 p-3">
 							<div className="flex items-center gap-2">

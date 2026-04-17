@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { motion } from "motion/react";
-import { Activity, Play, RefreshCcw, Settings, ShieldCheck } from "lucide-react";
+import { Activity, Settings, ShieldCheck } from "lucide-react";
 
 type Params = {
 	cleanGen: number;
@@ -19,11 +19,36 @@ type Results = {
 	surplus: number;
 };
 
-const nextMonthPrediction: Results = {
-	demand: 3750,
-	generation: 3800,
-	co2: 138,
-	surplus: 50,
+type BaselineInputs = {
+	demandTwh: number;
+	genCleanTwh: number;
+	genFossilTwh: number;
+	netImportsTwh: number;
+	emitFossilMtco2: number;
+	gdpElasticity: number;
+};
+
+const TWH_TO_MW = 1388.89;
+
+const defaultParams: Params = {
+	cleanGen: 20,
+	fossilGen: -10,
+	netImport: 0,
+	efficiency: 5,
+	gdpChange: 2,
+};
+
+/*
+	Replace this block later with real baseline values
+	from your selected country / year / month.
+*/
+const baselineInputs: BaselineInputs = {
+	demandTwh: 2.7,
+	genCleanTwh: 2.506,
+	genFossilTwh: 0.23,
+	netImportsTwh: 0,
+	emitFossilMtco2: 0.138,
+	gdpElasticity: 0.6,
 };
 
 const accentClassMap = {
@@ -47,69 +72,87 @@ type SliderControlProps = {
 	onChange: (key: keyof Params, value: number) => void;
 };
 
+function calculateScenario(
+	baseline: BaselineInputs,
+	params: Params,
+): Results {
+	const newCleanGenTwh =
+		baseline.genCleanTwh * (1 + params.cleanGen / 100);
+
+	const newFossilGenTwh =
+		baseline.genFossilTwh * (1 + params.fossilGen / 100);
+
+	const newImportTwh =
+		baseline.netImportsTwh * (1 + params.netImport / 100);
+
+	const newDemandTwh =
+		baseline.demandTwh *
+		(1 - params.efficiency / 100) *
+		(1 + (params.gdpChange * baseline.gdpElasticity) / 100);
+
+	const fossilEF =
+		baseline.genFossilTwh > 0
+			? baseline.emitFossilMtco2 / baseline.genFossilTwh
+			: 0;
+
+	const generationMw = Math.round(
+		(newCleanGenTwh + newFossilGenTwh) * TWH_TO_MW,
+	);
+
+	const demandMw = Math.round(newDemandTwh * TWH_TO_MW);
+
+	const co2Kt = Math.round(newFossilGenTwh * fossilEF * 1000);
+
+	const surplusMw = Math.round(
+		(newCleanGenTwh + newFossilGenTwh + newImportTwh - newDemandTwh) *
+		TWH_TO_MW,
+	);
+
+	return {
+		demand: demandMw,
+		generation: generationMw,
+		co2: co2Kt,
+		surplus: surplusMw,
+	};
+}
+
 export default function ScenarioSimulatorPage() {
-	const [params, setParams] = useState<Params>({
-		cleanGen: 0,
-		fossilGen: 0,
-		netImport: 0,
-		efficiency: 0,
-		gdpChange: 0,
-	});
-	const [results, setResults] = useState<Results>(nextMonthPrediction);
-	const [isSimulating, setIsSimulating] = useState(false);
-	const [hasRun, setHasRun] = useState(false);
+	const [params, setParams] = useState<Params>(defaultParams);
+
+	const baselineResults = useMemo(
+		() =>
+			calculateScenario(baselineInputs, {
+				cleanGen: 0,
+				fossilGen: 0,
+				netImport: 0,
+				efficiency: 0,
+				gdpChange: 0,
+			}),
+		[],
+	);
+
+	const results = useMemo(
+		() => calculateScenario(baselineInputs, params),
+		[params],
+	);
 
 	const updateParam = (key: keyof Params, value: number) => {
 		setParams((current) => ({ ...current, [key]: value }));
 	};
 
-	const handleRunSimulation = () => {
-		setIsSimulating(true);
-
-		setTimeout(() => {
-			const newDemand = Math.round(
-				nextMonthPrediction.demand * (1 + params.gdpChange / 100) * (1 - params.efficiency / 100),
-			);
-			const cleanGenBase = nextMonthPrediction.generation * 0.4;
-			const fossilGenBase = nextMonthPrediction.generation * 0.6;
-
-			const newGen = Math.round(
-				cleanGenBase * (1 + params.cleanGen / 100) +
-				fossilGenBase * (1 + params.fossilGen / 100) +
-				params.netImport * 10,
-			);
-			const newCo2 = Math.round(
-				nextMonthPrediction.co2 * (1 + params.fossilGen / 100) * (1 - params.cleanGen / 200),
-			);
-
-			setResults({
-				demand: newDemand,
-				generation: newGen,
-				co2: newCo2,
-				surplus: newGen - newDemand,
-			});
-			setIsSimulating(false);
-			setHasRun(true);
-		}, 1200);
-	};
-
 	const handleReset = () => {
-		setParams({
-			cleanGen: 0,
-			fossilGen: 0,
-			netImport: 0,
-			efficiency: 0,
-			gdpChange: 0,
-		});
-		setResults(nextMonthPrediction);
-		setHasRun(false);
+		setParams(defaultParams);
 	};
 
 	return (
 		<div className="mx-auto max-w-6xl">
 			<div className="mb-8">
-				<h1 className="text-3xl font-bold tracking-tight text-slate-900">Scenario Simulator</h1>
-				<p className="mt-1 text-slate-500">ปรับพารามิเตอร์และจำลองสถานการณ์เพื่อดูผลลัพธ์ผ่าน AI Model</p>
+				<h1 className="text-3xl font-bold tracking-tight text-slate-900">
+					Scenario Simulator
+				</h1>
+				<p className="mt-1 text-slate-500">
+					ปรับค่าพารามิเตอร์ แล้วระบบจะคำนวณผลลัพธ์ใหม่ทันที
+				</p>
 			</div>
 
 			<div className="grid grid-cols-1 gap-8 lg:grid-cols-12">
@@ -120,7 +163,9 @@ export default function ScenarioSimulatorPage() {
 				>
 					<div className="mb-6 flex items-center gap-2 border-b border-slate-100 pb-4">
 						<Settings className="h-5 w-5 text-slate-600" />
-						<h2 className="text-lg font-bold text-slate-900">Policy Knobs</h2>
+						<h2 className="text-lg font-bold text-slate-900">
+							Policy Knobs
+						</h2>
 					</div>
 
 					<div className="space-y-2">
@@ -178,24 +223,6 @@ export default function ScenarioSimulatorPage() {
 
 					<div className="mt-8 flex gap-4">
 						<button
-							onClick={handleRunSimulation}
-							disabled={isSimulating}
-							className={`flex flex-1 items-center justify-center gap-2 rounded-xl px-4 py-3 font-bold text-white transition-all shadow-sm ${
-								isSimulating
-									? "cursor-not-allowed bg-indigo-400"
-									: "bg-indigo-600 hover:-translate-y-0.5 hover:bg-indigo-700 hover:shadow-indigo-600/20"
-							}`}
-						>
-							{isSimulating ? (
-								<motion.div animate={{ rotate: 360 }} transition={{ repeat: Infinity, duration: 1, ease: "linear" }}>
-									<RefreshCcw className="h-5 w-5" />
-								</motion.div>
-							) : (
-								<Play className="h-5 w-5" />
-							)}
-							{isSimulating ? "Running AI Models..." : "Run Scenario"}
-						</button>
-						<button
 							onClick={handleReset}
 							className="rounded-xl bg-slate-100 px-4 py-3 font-semibold text-slate-600 transition-colors hover:bg-slate-200"
 						>
@@ -213,14 +240,14 @@ export default function ScenarioSimulatorPage() {
 						<div className="mb-8 flex items-center justify-between">
 							<div className="flex items-center gap-2">
 								<Activity className="h-5 w-5 text-indigo-400" />
-								<h2 className="text-xl font-bold">Simulation Results</h2>
+								<h2 className="text-xl font-bold">
+									Simulation Results
+								</h2>
 							</div>
-							{hasRun && !isSimulating && (
-								<span className="flex items-center gap-1 rounded-full border border-indigo-500/30 bg-indigo-500/20 px-3 py-1 text-xs text-indigo-300">
-									<ShieldCheck className="h-3 w-3" />
-									Up to date
-								</span>
-							)}
+							<span className="flex items-center gap-1 rounded-full border border-indigo-500/30 bg-indigo-500/20 px-3 py-1 text-xs text-indigo-300">
+								<ShieldCheck className="h-3 w-3" />
+								Live update
+							</span>
 						</div>
 
 						<div className="grid grid-cols-2 gap-4">
@@ -228,32 +255,28 @@ export default function ScenarioSimulatorPage() {
 								title="Simulated Demand"
 								value={results.demand}
 								unit="MW"
-								baseValue={nextMonthPrediction.demand}
-								isSimulating={isSimulating}
+								baseValue={baselineResults.demand}
 								color="text-blue-400"
 							/>
 							<ResultCard
 								title="Simulated Generation"
 								value={results.generation}
 								unit="MW"
-								baseValue={nextMonthPrediction.generation}
-								isSimulating={isSimulating}
+								baseValue={baselineResults.generation}
 								color="text-emerald-400"
 							/>
 							<ResultCard
 								title="Simulated CO2"
 								value={results.co2}
 								unit="kt"
-								baseValue={nextMonthPrediction.co2}
-								isSimulating={isSimulating}
+								baseValue={baselineResults.co2}
 								color="text-rose-400"
 							/>
 							<ResultCard
 								title="Energy Balance (Surplus)"
 								value={results.surplus}
 								unit="MW"
-								baseValue={nextMonthPrediction.surplus}
-								isSimulating={isSimulating}
+								baseValue={baselineResults.surplus}
 								color="text-amber-400"
 								sign
 							/>
@@ -262,20 +285,17 @@ export default function ScenarioSimulatorPage() {
 
 					<div className="rounded-2xl border border-slate-200 bg-white p-6">
 						<h3 className="mb-2 font-bold text-slate-900">Insight</h3>
-						{isSimulating ? (
-							<div className="h-10 animate-pulse rounded bg-slate-100" />
-						) : hasRun ? (
-							<p className="text-sm leading-relaxed text-slate-600">
-								จากสมมติฐานที่คุณตั้งค่า ระบบคาดการณ์ว่า CO2 จะเปลี่ยนไป <span className="font-bold">{results.co2 - nextMonthPrediction.co2} kt</span> และจะมีพลังงานส่วนเกินอยู่ที่ <span className="font-bold">{results.surplus} MW</span>.
-								{results.surplus < 0 && (
-									<span className="ml-1 font-semibold text-rose-600">
-										คำเตือน: ระบบอาจเผชิญกับปัญหาขาดแคลนพลังงาน ควรเพิ่ม Net Import หรือ Generation
-									</span>
-								)}
-							</p>
-						) : (
-							<p className="text-sm italic text-slate-500">ปรับค่าพารามิเตอร์และกด Run Scenario เพื่อดูผลลัพธ์การวิเคราะห์จากโมเดล AI</p>
-						)}
+						<p className="text-sm leading-relaxed text-slate-600">
+							ระบบคำนวณจาก baseline จริงในหน่วย TWh แล้วแปลงเป็น MW
+							ด้วยตัวคูณ 1388.89 สำหรับการแสดงผล ส่วน CO2 คำนวณจาก
+							fossil generation เท่านั้น
+							และค่า Energy Balance รวมผลของ Net Imports ด้วย
+							{results.surplus < 0 && (
+								<span className="ml-1 font-semibold text-rose-600">
+									คำเตือน: ระบบอาจเผชิญกับภาวะไฟฟ้าขาดแคลน
+								</span>
+							)}
+						</p>
 					</div>
 				</motion.div>
 			</div>
@@ -293,26 +313,41 @@ function SliderControl({
 	                       color,
 	                       onChange,
                        }: SliderControlProps) {
+	const clampValue = (nextValue: number) =>
+		Math.min(max, Math.max(min, nextValue));
+
 	return (
 		<div className="mb-6">
 			<div className="mb-2 flex items-end justify-between">
-				<label className="text-sm font-medium text-slate-700">{label}</label>
+				<label className="text-sm font-medium text-slate-700">
+					{label}
+				</label>
 				<div className="flex items-center gap-1">
 					<input
 						type="number"
 						value={value}
-						onChange={(event) => onChange(paramKey, Number(event.target.value))}
+						onChange={(event) =>
+							onChange(
+								paramKey,
+								clampValue(Number(event.target.value)),
+							)
+						}
 						className="w-16 rounded border border-slate-200 bg-slate-50 px-2 py-1 text-right text-sm font-semibold text-slate-900 focus:outline-none focus:ring-1 focus:ring-indigo-500"
 					/>
-					<span className="text-sm font-medium text-slate-500">{unit}</span>
+					<span className="text-sm font-medium text-slate-500">
+						{unit}
+					</span>
 				</div>
 			</div>
 			<input
 				type="range"
 				min={min}
 				max={max}
+				step={1}
 				value={value}
-				onChange={(event) => onChange(paramKey, Number(event.target.value))}
+				onChange={(event) =>
+					onChange(paramKey, Number(event.target.value))
+				}
 				className={`h-2 w-full cursor-pointer appearance-none rounded-lg bg-slate-200 ${accentClassMap[color]}`}
 			/>
 			<div className="mt-1 flex justify-between text-xs text-slate-400">
@@ -334,12 +369,18 @@ type ResultCardProps = {
 	value: number;
 	unit: string;
 	baseValue: number;
-	isSimulating: boolean;
 	color: string;
 	sign?: boolean;
 };
 
-function ResultCard({ title, value, unit, baseValue, isSimulating, color, sign = false }: ResultCardProps) {
+function ResultCard({
+	                    title,
+	                    value,
+	                    unit,
+	                    baseValue,
+	                    color,
+	                    sign = false,
+                    }: ResultCardProps) {
 	const diff = value - baseValue;
 	const showDiff = diff !== 0;
 
@@ -348,20 +389,20 @@ function ResultCard({ title, value, unit, baseValue, isSimulating, color, sign =
 			<p className="mb-2 text-xs font-medium text-slate-400">{title}</p>
 			<div className="flex items-end gap-2">
 				<div className={`text-3xl font-bold ${color}`}>
-					{isSimulating ? (
-						<span className="opacity-50">...</span>
-					) : (
-						<motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }} key={value}>
-							{sign && value > 0 ? "+" : ""}
-							{value.toLocaleString()}
-						</motion.span>
-					)}
+					<motion.span
+						initial={{ opacity: 0 }}
+						animate={{ opacity: 1 }}
+						key={value}
+					>
+						{sign && value > 0 ? "+" : ""}
+						{value.toLocaleString()}
+					</motion.span>
 				</div>
 				<span className="mb-1 text-sm text-slate-500">{unit}</span>
 			</div>
 
 			<div className="mt-2 h-5">
-				{!isSimulating && showDiff && (
+				{showDiff && (
 					<motion.div
 						initial={{ opacity: 0, y: 5 }}
 						animate={{ opacity: 1, y: 0 }}
@@ -376,7 +417,7 @@ function ResultCard({ title, value, unit, baseValue, isSimulating, color, sign =
 						}`}
 					>
 						{diff > 0 ? "▲ +" : "▼ "}
-						{diff} vs Baseline
+						{Math.abs(diff).toLocaleString()} vs Baseline
 					</motion.div>
 				)}
 			</div>
