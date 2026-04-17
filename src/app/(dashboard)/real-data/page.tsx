@@ -8,56 +8,12 @@ import StatCard from "@/app/(dashboard)/components/StatCard";
 import ChartCard from "@/app/(dashboard)/components/ChartCard";
 import {highlightMatch} from "@/app/(dashboard)/components/CountrySearch";
 import {monthNames, monthsList, years} from "@/app/(dashboard)/real-data/lib/constants";
+import type {Country, SeriesPoint, SourceRow} from "@/app/(dashboard)/real-data/lib/types";
+import {monthLabel, avg} from "@/app/(dashboard)/real-data/lib/utils";
 
-// ── Types ────────────────────────────────────────────────────────────────────
-
-interface RawDataRow {
-	Area: string;
-	Year: number;
-	Month: number;
-	"Capacity_Clean_yearly (GW)": number;
-	"Capacity_Fossil_yearly (GW)": number;
-	"Net_Imports_yearly (TWh)": number;
-	"GDP_yearly (TBTUUSDPP)": number;
-	"Population_yearly (MBTUPP)": number;
-	"Electricity generation_Clean (TWh)": number;
-	"Electricity generation_Fossil (TWh)": number;
-	"Power sector emissions_Clean (mtCO2)": number;
-	"Power sector emissions_Fossil (mtCO2)": number;
-}
-
-interface Country {
-	name: string;
-	gdp: string;
-	import: string;
-	pop: string;
-	flag: string;
-}
-
-interface SeriesPoint {
-	name: string;
-	clean: number;
-	fossil: number;
-}
-
-// ── Helpers ──────────────────────────────────────────────────────────────────
-
-function monthLabel(monthNum: number): string {
-	return monthNum >= 1 && monthNum <= 12
-		? ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"][monthNum - 1]
-		: "All";
-}
-
-function avg(nums: number[]): number {
-	if (!nums.length) return 0;
-	return nums.reduce((a, b) => a + b, 0) / nums.length;
-}
-
-// ── Page ─────────────────────────────────────────────────────────────────────
-
-export default function RealDataPage() {
+const RealData = () => {
 	const [isLoading, setIsLoading] = useState(false);
-	const [allRows, setAllRows] = useState<RawDataRow[]>([]);
+	const [allRows, setAllRows] = useState<SourceRow[]>([]);
 	const [countries, setCountries] = useState<Country[]>([]);
 	const [searchQuery, setSearchQuery] = useState("");
 	const [selectedCountry, setSelectedCountry] = useState<Country | null>(null);
@@ -69,7 +25,6 @@ export default function RealDataPage() {
 	const [emissionsData, setEmissionsData] = useState<SeriesPoint[]>([]);
 	const searchRef = useRef<HTMLDivElement>(null);
 
-	// Close dropdown on outside click
 	useEffect(() => {
 		function handleClickOutside(event: MouseEvent) {
 			if (searchRef.current && !searchRef.current.contains(event.target as Node)) {
@@ -80,15 +35,14 @@ export default function RealDataPage() {
 		return () => document.removeEventListener("mousedown", handleClickOutside);
 	}, []);
 
-	// Load JSON once
 	useEffect(() => {
 		setIsLoading(true);
 		fetch("/data/emissions.json")
 			.then((res) => res.json())
-			.then((raw: RawDataRow[]) => {
+			.then((raw: SourceRow[]) => {
 				setAllRows(raw);
 
-				const latestMap = new Map<string, RawDataRow>();
+				const latestMap = new Map<string, SourceRow>();
 				for (const row of raw) {
 					const existing = latestMap.get(row.Area);
 					if (
@@ -128,7 +82,6 @@ export default function RealDataPage() {
 			});
 	}, []);
 
-	// Recompute chart data whenever country / year / month changes
 	useEffect(() => {
 		if (!selectedCountry || !allRows.length) return;
 
@@ -138,7 +91,7 @@ export default function RealDataPage() {
 			(r) => r.Area === selectedCountry.name && r.Year === year,
 		);
 
-		let rows: RawDataRow[];
+		let rows: SourceRow[];
 
 		if (month === "All Year") {
 			// One point per month, sorted Jan → Dec
@@ -172,7 +125,8 @@ export default function RealDataPage() {
 			})),
 		);
 
-		// Update stat card values: GDP/import/pop are yearly constants — average to be safe
+		// const refRow = forCountryYear[0];
+
 		const gdpAvg = avg(forCountryYear.map((r) => r["GDP_yearly (TBTUUSDPP)"]));
 		const importAvg = avg(forCountryYear.map((r) => r["Net_Imports_yearly (TWh)"]));
 		const popAvg = avg(forCountryYear.map((r) => r["Population_yearly (MBTUPP)"]));
@@ -211,9 +165,11 @@ export default function RealDataPage() {
 					<p className="mt-1 text-slate-400">Explore historical power sector metrics and economic context.</p>
 				</div>
 
-				<div className="grid grid-cols-1 items-center gap-4 rounded-xl border border-slate-800 bg-[#111827] p-4 shadow-lg md:grid-cols-12">
+				<div
+					className="grid grid-cols-1 items-center gap-4 rounded-xl border border-slate-800 bg-[#111827] p-4 shadow-lg md:grid-cols-12">
 					<div className="relative md:col-span-6 lg:col-span-4" ref={searchRef}>
-						<label className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-slate-400">Location</label>
+						<label
+							className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-slate-400">Location</label>
 						<div className="relative">
 							<div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
 								<Search className="h-4 w-4 text-slate-400"/>
@@ -253,13 +209,16 @@ export default function RealDataPage() {
 											>
 												<div className="flex items-center gap-2">
 													<span className="text-xl">{country.flag}</span>
-													<span className="text-sm font-medium">{highlightMatch(country.name, searchQuery)}</span>
+													<span
+														className="text-sm font-medium">{highlightMatch(country.name, searchQuery)}</span>
 												</div>
-												{selectedCountry?.name === country.name && <Check className="h-4 w-4 text-[#00FF88]"/>}
+												{selectedCountry?.name === country.name &&
+                                                    <Check className="h-4 w-4 text-[#00FF88]"/>}
 											</div>
 										))
 									) : (
-										<div className="px-4 py-3 text-center text-sm text-slate-400">No countries found</div>
+										<div className="px-4 py-3 text-center text-sm text-slate-400">No countries
+											found</div>
 									)}
 								</motion.div>
 							)}
@@ -267,7 +226,8 @@ export default function RealDataPage() {
 					</div>
 
 					<div className="md:col-span-3 lg:col-span-2">
-						<label className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-slate-400">Year</label>
+						<label
+							className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-slate-400">Year</label>
 						<div className="relative">
 							<select
 								value={year}
@@ -283,7 +243,8 @@ export default function RealDataPage() {
 					</div>
 
 					<div className="md:col-span-3 lg:col-span-2">
-						<label className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-slate-400">Month</label>
+						<label
+							className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-slate-400">Month</label>
 						<div className="relative">
 							<select
 								value={month}
@@ -300,9 +261,12 @@ export default function RealDataPage() {
 				</div>
 
 				<div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-					<StatCard title="GDP per Energy Use" value={selectedCountry?.gdp ?? "-"} icon={<Activity className="h-5 w-5 text-blue-400"/>} isLoading={isLoading}/>
-					<StatCard title="Energy Import Reliance" value={selectedCountry?.import ?? "-"} icon={<Box className="h-5 w-5 text-amber-400"/>} isLoading={isLoading}/>
-					<StatCard title="Total Population" value={selectedCountry?.pop ?? "-"} icon={<MapPin className="h-5 w-5 text-purple-400"/>} isLoading={isLoading}/>
+					<StatCard title="GDP per Energy Use" value={selectedCountry?.gdp ?? "-"}
+					          icon={<Activity className="h-5 w-5 text-blue-400"/>} isLoading={isLoading}/>
+					<StatCard title="Energy Import Reliance" value={selectedCountry?.import ?? "-"}
+					          icon={<Box className="h-5 w-5 text-amber-400"/>} isLoading={isLoading}/>
+					<StatCard title="Total Population" value={selectedCountry?.pop ?? "-"}
+					          icon={<MapPin className="h-5 w-5 text-purple-400"/>} isLoading={isLoading}/>
 				</div>
 
 				<div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
@@ -312,5 +276,6 @@ export default function RealDataPage() {
 				</div>
 			</div>
 		</div>
-	);
+	)
 }
+export default RealData

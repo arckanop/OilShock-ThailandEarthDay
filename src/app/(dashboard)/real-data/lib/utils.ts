@@ -1,8 +1,10 @@
-import type {RawDataRow} from "@/app/(dashboard)/real-data/lib/types";
 import {monthNames} from "@/app/(dashboard)/real-data/lib/constants";
 
-export const monthName = (month: number) => monthNames[month - 1];
+export function monthLabel(monthNum: number): string {
+	return monthNames[monthNum - 1] ?? "All";
+}
 
-export function aggregateYear(rows: RawDataRow[]): RawDataRow[] {
-	return [...rows].sort((a, b) => a.month - b.month);
+export function avg(nums: number[]): number {
+	if (!nums.length) return 0;
+	return nums.reduce((a, b) => a + b, 0) / nums.length;
 }

@@ -27,10 +27,3 @@ export type SourceRow = {
 	"Power sector emissions_Clean (mtCO2)": number;
 	"Power sector emissions_Fossil (mtCO2)": number;
 };
-
-export type RawDataRow = {
-	area: string; year: number; month: number;
-	capacity_clean: number; capacity_fossil: number;
-	gen_clean: number; gen_fossil: number;
-	emissions_clean: number; emissions_fossil: number;
-};
