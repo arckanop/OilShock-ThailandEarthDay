@@ -7,6 +7,7 @@ import {
 	Database,
 	FileText,
 	GitCompare,
+	GitFork,
 	LayoutDashboard,
 	SlidersHorizontal,
 	Zap,
@@ -78,10 +79,10 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
 					})}
 				</nav>
 
-				<div className="border-t border-slate-800 p-4 text-xs text-slate-500">
-					<p>Demo for Hackathon</p>
-					<p className="mt-1">Version 2.0.0</p>
-				</div>
+				{/*<div className="border-t border-slate-800 p-4 text-xs text-slate-500">*/}
+				{/*	<p>Demo for Hackathon</p>*/}
+				{/*	<p className="mt-1">Version 2.0.0</p>*/}
+				{/*</div>*/}
 			</aside>
 
 			<main className="flex flex-1 flex-col overflow-hidden">
@@ -91,6 +92,26 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
 				</header>
 
 				<div className="flex-1 overflow-auto p-4 md:p-8">{children}</div>
+
+				{/*<footer className="shrink-0 border-t border-slate-200 bg-white px-4 py-3 md:px-8">*/}
+				{/*	<div className="flex flex-wrap items-center justify-center gap-2 text-sm text-slate-600 md:justify-between">*/}
+				{/*		<div className="font-medium text-slate-700">EcoPredict AI</div>*/}
+
+				{/*		<div className="flex items-center gap-2">*/}
+				{/*			<a*/}
+				{/*				href="https://github.com/arckanop/OilShock-ThailandEarthDay"*/}
+				{/*				target="_blank"*/}
+				{/*				rel="noreferrer"*/}
+				{/*				className="inline-flex items-center gap-1.5 transition-colors hover:text-slate-900"*/}
+				{/*			>*/}
+				{/*				<GitFork className="h-4 w-4" />*/}
+				{/*				<span>GitHub</span>*/}
+				{/*			</a>*/}
+				{/*			<span className="text-slate-400">|</span>*/}
+				{/*			<span>Version 2.3.4</span>*/}
+				{/*		</div>*/}
+				{/*	</div>*/}
+				{/*</footer>*/}
 			</main>
 		</div>
 	);
