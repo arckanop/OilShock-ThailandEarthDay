@@ -7,9 +7,9 @@ import {Activity, Box, Check, ChevronDown, Globe, MapPin, Search} from "lucide-r
 import StatCard from "@/app/(dashboard)/components/StatCard";
 import ChartCard from "@/app/(dashboard)/components/ChartCard";
 import {highlightMatch} from "@/app/(dashboard)/components/CountrySearch";
-import {monthNames, monthsList, years} from "@/app/(dashboard)/real-data/lib/constants";
+import {monthNames, monthsList} from "@/app/(dashboard)/real-data/lib/constants";
 import type {Country, SeriesPoint, SourceRow} from "@/app/(dashboard)/real-data/lib/types";
-import {monthLabel, avg} from "@/app/(dashboard)/real-data/lib/utils";
+import {monthLabel, avg, countryFlag} from "@/app/(dashboard)/real-data/lib/utils";
 
 const RealData = () => {
 	const [isLoading, setIsLoading] = useState(false);
@@ -24,6 +24,7 @@ const RealData = () => {
 	const [generationData, setGenerationData] = useState<SeriesPoint[]>([]);
 	const [emissionsData, setEmissionsData] = useState<SeriesPoint[]>([]);
 	const searchRef = useRef<HTMLDivElement>(null);
+	const [availableYears, setAvailableYears] = useState<number[]>([]);
 
 	useEffect(() => {
 		function handleClickOutside(event: MouseEvent) {
@@ -60,7 +61,7 @@ const RealData = () => {
 						gdp: row["GDP_yearly (TBTUUSDPP)"].toFixed(3) + " $/TBTU",
 						import: row["Net_Imports_yearly (TWh)"].toFixed(3) + " TWh",
 						pop: row["Population_yearly (MBTUPP)"].toFixed(3) + " M",
-						flag: "🌍",
+						flag: countryFlag(row.Area),
 					}))
 					.sort((a, b) => a.name.localeCompare(b.name));
 
@@ -86,6 +87,19 @@ const RealData = () => {
 		if (!selectedCountry || !allRows.length) return;
 
 		setIsLoading(true);
+
+		const yearsForCountry = [...new Set(
+			allRows
+				.filter((r) => r.Area === selectedCountry.name)
+				.map((r) => r.Year)
+		)].sort((a, b) => b - a);
+
+		setAvailableYears(yearsForCountry);
+
+		if (!yearsForCountry.includes(year)) {
+			setYear(yearsForCountry[0]);
+			return;
+		}
 
 		const forCountryYear = allRows.filter(
 			(r) => r.Area === selectedCountry.name && r.Year === year,
@@ -234,7 +248,7 @@ const RealData = () => {
 								onChange={(e) => setYear(Number(e.target.value))}
 								className="block w-full cursor-pointer appearance-none rounded-lg border border-slate-700 bg-[#1f2937] py-2.5 pl-3 pr-10 text-white focus:border-[#00FF88] focus:outline-none focus:ring-1 focus:ring-[#00FF88] sm:text-sm"
 							>
-								{years.map((v) => <option key={v} value={v}>{v}</option>)}
+								{availableYears.map((v) => <option key={v} value={v}>{v}</option>)}
 							</select>
 							<div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
 								<ChevronDown className="h-4 w-4 text-slate-400"/>
