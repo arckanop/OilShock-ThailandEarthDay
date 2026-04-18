@@ -1,0 +1,570 @@
+{
+	"country": "Thailand",
+	"dateRange": "2020-01 to 2024-12",
+	"n": 60,
+	"hypothesis1_cleanVsCo2Intensity": {
+		"scatter": [
+			{
+				"cleanRatio": 0.1481,
+				"co2Intensity": 0.6461,
+				"label": "2020-01"
+			},
+			{
+				"cleanRatio": 0.1545,
+				"co2Intensity": 0.6441,
+				"label": "2020-02"
+			},
+			{
+				"cleanRatio": 0.1392,
+				"co2Intensity": 0.6396,
+				"label": "2020-03"
+			},
+			{
+				"cleanRatio": 0.1507,
+				"co2Intensity": 0.6468,
+				"label": "2020-04"
+			},
+			{
+				"cleanRatio": 0.1392,
+				"co2Intensity": 0.6489,
+				"label": "2020-05"
+			},
+			{
+				"cleanRatio": 0.1317,
+				"co2Intensity": 0.6455,
+				"label": "2020-06"
+			},
+			{
+				"cleanRatio": 0.1313,
+				"co2Intensity": 0.6307,
+				"label": "2020-07"
+			},
+			{
+				"cleanRatio": 0.1425,
+				"co2Intensity": 0.6496,
+				"label": "2020-08"
+			},
+			{
+				"cleanRatio": 0.1293,
+				"co2Intensity": 0.6456,
+				"label": "2020-09"
+			},
+			{
+				"cleanRatio": 0.1267,
+				"co2Intensity": 0.6506,
+				"label": "2020-10"
+			},
+			{
+				"cleanRatio": 0.1412,
+				"co2Intensity": 0.6468,
+				"label": "2020-11"
+			},
+			{
+				"cleanRatio": 0.1742,
+				"co2Intensity": 0.6484,
+				"label": "2020-12"
+			},
+			{
+				"cleanRatio": 0.1865,
+				"co2Intensity": 0.6438,
+				"label": "2021-01"
+			},
+			{
+				"cleanRatio": 0.1652,
+				"co2Intensity": 0.6458,
+				"label": "2021-02"
+			},
+			{
+				"cleanRatio": 0.1405,
+				"co2Intensity": 0.6331,
+				"label": "2021-03"
+			},
+			{
+				"cleanRatio": 0.1362,
+				"co2Intensity": 0.6415,
+				"label": "2021-04"
+			},
+			{
+				"cleanRatio": 0.1328,
+				"co2Intensity": 0.633,
+				"label": "2021-05"
+			},
+			{
+				"cleanRatio": 0.154,
+				"co2Intensity": 0.6437,
+				"label": "2021-06"
+			},
+			{
+				"cleanRatio": 0.1607,
+				"co2Intensity": 0.6574,
+				"label": "2021-07"
+			},
+			{
+				"cleanRatio": 0.1551,
+				"co2Intensity": 0.6569,
+				"label": "2021-08"
+			},
+			{
+				"cleanRatio": 0.1353,
+				"co2Intensity": 0.6375,
+				"label": "2021-09"
+			},
+			{
+				"cleanRatio": 0.1284,
+				"co2Intensity": 0.6443,
+				"label": "2021-10"
+			},
+			{
+				"cleanRatio": 0.1324,
+				"co2Intensity": 0.6448,
+				"label": "2021-11"
+			},
+			{
+				"cleanRatio": 0.1844,
+				"co2Intensity": 0.6559,
+				"label": "2021-12"
+			},
+			{
+				"cleanRatio": 0.1694,
+				"co2Intensity": 0.6396,
+				"label": "2022-01"
+			},
+			{
+				"cleanRatio": 0.1664,
+				"co2Intensity": 0.6345,
+				"label": "2022-02"
+			},
+			{
+				"cleanRatio": 0.1547,
+				"co2Intensity": 0.6327,
+				"label": "2022-03"
+			},
+			{
+				"cleanRatio": 0.1688,
+				"co2Intensity": 0.6374,
+				"label": "2022-04"
+			},
+			{
+				"cleanRatio": 0.1617,
+				"co2Intensity": 0.6483,
+				"label": "2022-05"
+			},
+			{
+				"cleanRatio": 0.1584,
+				"co2Intensity": 0.6381,
+				"label": "2022-06"
+			},
+			{
+				"cleanRatio": 0.1607,
+				"co2Intensity": 0.6479,
+				"label": "2022-07"
+			},
+			{
+				"cleanRatio": 0.157,
+				"co2Intensity": 0.6547,
+				"label": "2022-08"
+			},
+			{
+				"cleanRatio": 0.1426,
+				"co2Intensity": 0.6422,
+				"label": "2022-09"
+			},
+			{
+				"cleanRatio": 0.1437,
+				"co2Intensity": 0.6531,
+				"label": "2022-10"
+			},
+			{
+				"cleanRatio": 0.1235,
+				"co2Intensity": 0.6432,
+				"label": "2022-11"
+			},
+			{
+				"cleanRatio": 0.191,
+				"co2Intensity": 0.6419,
+				"label": "2022-12"
+			},
+			{
+				"cleanRatio": 0.2148,
+				"co2Intensity": 0.6423,
+				"label": "2023-01"
+			},
+			{
+				"cleanRatio": 0.1853,
+				"co2Intensity": 0.6365,
+				"label": "2023-02"
+			},
+			{
+				"cleanRatio": 0.1707,
+				"co2Intensity": 0.6307,
+				"label": "2023-03"
+			},
+			{
+				"cleanRatio": 0.1496,
+				"co2Intensity": 0.6274,
+				"label": "2023-04"
+			},
+			{
+				"cleanRatio": 0.1399,
+				"co2Intensity": 0.6225,
+				"label": "2023-05"
+			},
+			{
+				"cleanRatio": 0.1481,
+				"co2Intensity": 0.6269,
+				"label": "2023-06"
+			},
+			{
+				"cleanRatio": 0.145,
+				"co2Intensity": 0.6249,
+				"label": "2023-07"
+			},
+			{
+				"cleanRatio": 0.155,
+				"co2Intensity": 0.6251,
+				"label": "2023-08"
+			},
+			{
+				"cleanRatio": 0.1349,
+				"co2Intensity": 0.6346,
+				"label": "2023-09"
+			},
+			{
+				"cleanRatio": 0.1262,
+				"co2Intensity": 0.6289,
+				"label": "2023-10"
+			},
+			{
+				"cleanRatio": 0.1362,
+				"co2Intensity": 0.6306,
+				"label": "2023-11"
+			},
+			{
+				"cleanRatio": 0.1821,
+				"co2Intensity": 0.6233,
+				"label": "2023-12"
+			},
+			{
+				"cleanRatio": 0.1708,
+				"co2Intensity": 0.6299,
+				"label": "2024-01"
+			},
+			{
+				"cleanRatio": 0.1585,
+				"co2Intensity": 0.6347,
+				"label": "2024-02"
+			},
+			{
+				"cleanRatio": 0.1426,
+				"co2Intensity": 0.6287,
+				"label": "2024-03"
+			},
+			{
+				"cleanRatio": 0.1465,
+				"co2Intensity": 0.6265,
+				"label": "2024-04"
+			},
+			{
+				"cleanRatio": 0.1323,
+				"co2Intensity": 0.6263,
+				"label": "2024-05"
+			},
+			{
+				"cleanRatio": 0.1422,
+				"co2Intensity": 0.6225,
+				"label": "2024-06"
+			},
+			{
+				"cleanRatio": 0.1511,
+				"co2Intensity": 0.629,
+				"label": "2024-07"
+			},
+			{
+				"cleanRatio": 0.1353,
+				"co2Intensity": 0.6202,
+				"label": "2024-08"
+			},
+			{
+				"cleanRatio": 0.1426,
+				"co2Intensity": 0.6379,
+				"label": "2024-09"
+			},
+			{
+				"cleanRatio": 0.124,
+				"co2Intensity": 0.6404,
+				"label": "2024-10"
+			},
+			{
+				"cleanRatio": 0.144,
+				"co2Intensity": 0.6375,
+				"label": "2024-11"
+			},
+			{
+				"cleanRatio": 0.2015,
+				"co2Intensity": 0.6369,
+				"label": "2024-12"
+			}
+		],
+		"r": 0.1138,
+		"p": 0.38658
+	},
+	"hypothesis2_fossilToCo2": {
+		"scatter": [
+			{
+				"fossilGen": 13.11,
+				"emissions": 8.47
+			},
+			{
+				"fossilGen": 12.42,
+				"emissions": 8.0
+			},
+			{
+				"fossilGen": 14.29,
+				"emissions": 9.14
+			},
+			{
+				"fossilGen": 12.57,
+				"emissions": 8.13
+			},
+			{
+				"fossilGen": 13.73,
+				"emissions": 8.91
+			},
+			{
+				"fossilGen": 12.92,
+				"emissions": 8.34
+			},
+			{
+				"fossilGen": 13.43,
+				"emissions": 8.47
+			},
+			{
+				"fossilGen": 12.1,
+				"emissions": 7.86
+			},
+			{
+				"fossilGen": 12.19,
+				"emissions": 7.87
+			},
+			{
+				"fossilGen": 11.79,
+				"emissions": 7.67
+			},
+			{
+				"fossilGen": 11.92,
+				"emissions": 7.71
+			},
+			{
+				"fossilGen": 10.95,
+				"emissions": 7.1
+			},
+			{
+				"fossilGen": 10.95,
+				"emissions": 7.05
+			},
+			{
+				"fossilGen": 11.52,
+				"emissions": 7.44
+			},
+			{
+				"fossilGen": 14.31,
+				"emissions": 9.06
+			},
+			{
+				"fossilGen": 13.0,
+				"emissions": 8.34
+			},
+			{
+				"fossilGen": 14.17,
+				"emissions": 8.97
+			},
+			{
+				"fossilGen": 12.91,
+				"emissions": 8.31
+			},
+			{
+				"fossilGen": 12.17,
+				"emissions": 8.0
+			},
+			{
+				"fossilGen": 11.98,
+				"emissions": 7.87
+			},
+			{
+				"fossilGen": 11.89,
+				"emissions": 7.58
+			},
+			{
+				"fossilGen": 13.1,
+				"emissions": 8.44
+			},
+			{
+				"fossilGen": 12.78,
+				"emissions": 8.24
+			},
+			{
+				"fossilGen": 11.1,
+				"emissions": 7.28
+			},
+			{
+				"fossilGen": 12.21,
+				"emissions": 7.81
+			},
+			{
+				"fossilGen": 11.82,
+				"emissions": 7.5
+			},
+			{
+				"fossilGen": 14.21,
+				"emissions": 8.99
+			},
+			{
+				"fossilGen": 12.85,
+				"emissions": 8.19
+			},
+			{
+				"fossilGen": 13.22,
+				"emissions": 8.57
+			},
+			{
+				"fossilGen": 13.07,
+				"emissions": 8.34
+			},
+			{
+				"fossilGen": 12.64,
+				"emissions": 8.19
+			},
+			{
+				"fossilGen": 12.51,
+				"emissions": 8.19
+			},
+			{
+				"fossilGen": 12.27,
+				"emissions": 7.88
+			},
+			{
+				"fossilGen": 12.28,
+				"emissions": 8.02
+			},
+			{
+				"fossilGen": 13.48,
+				"emissions": 8.67
+			},
+			{
+				"fossilGen": 11.31,
+				"emissions": 7.26
+			},
+			{
+				"fossilGen": 10.82,
+				"emissions": 6.95
+			},
+			{
+				"fossilGen": 11.61,
+				"emissions": 7.39
+			},
+			{
+				"fossilGen": 13.89,
+				"emissions": 8.76
+			},
+			{
+				"fossilGen": 14.84,
+				"emissions": 9.31
+			},
+			{
+				"fossilGen": 15.92,
+				"emissions": 9.91
+			},
+			{
+				"fossilGen": 14.5,
+				"emissions": 9.09
+			},
+			{
+				"fossilGen": 14.45,
+				"emissions": 9.03
+			},
+			{
+				"fossilGen": 13.63,
+				"emissions": 8.52
+			},
+			{
+				"fossilGen": 12.7,
+				"emissions": 8.06
+			},
+			{
+				"fossilGen": 13.15,
+				"emissions": 8.27
+			},
+			{
+				"fossilGen": 13.13,
+				"emissions": 8.28
+			},
+			{
+				"fossilGen": 12.08,
+				"emissions": 7.53
+			},
+			{
+				"fossilGen": 13.4,
+				"emissions": 8.44
+			},
+			{
+				"fossilGen": 13.96,
+				"emissions": 8.86
+			},
+			{
+				"fossilGen": 16.05,
+				"emissions": 10.09
+			},
+			{
+				"fossilGen": 16.2,
+				"emissions": 10.15
+			},
+			{
+				"fossilGen": 16.59,
+				"emissions": 10.39
+			},
+			{
+				"fossilGen": 14.78,
+				"emissions": 9.2
+			},
+			{
+				"fossilGen": 13.26,
+				"emissions": 8.34
+			},
+			{
+				"fossilGen": 14.19,
+				"emissions": 8.8
+			},
+			{
+				"fossilGen": 12.87,
+				"emissions": 8.21
+			},
+			{
+				"fossilGen": 13.57,
+				"emissions": 8.69
+			},
+			{
+				"fossilGen": 13.38,
+				"emissions": 8.53
+			},
+			{
+				"fossilGen": 11.65,
+				"emissions": 7.42
+			}
+		],
+		"slope": 0.5728,
+		"intercept": 0.8519,
+		"r": 0.9921,
+		"r_squared": 0.9843,
+		"p": 4.8371e-54,
+		"std_err": 0.0095,
+		"ci95_slope_lower": 0.5542,
+		"ci95_slope_upper": 0.5914
+	},
+	"forecast_backtest": {
+		"method": "seasonal_naive_12mo",
+		"rmse_twh": 1.1086,
+		"mae_twh": 0.8806,
+		"mape_pct": 4.82,
+		"n_test": 48
+	}
+}

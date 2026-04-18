@@ -8,9 +8,12 @@ import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YA
 import StatCard from "@/app/(dashboard)/components/StatCard";
 import ChartCard from "@/app/(dashboard)/components/ChartCard";
 import { highlightMatch } from "@/app/(dashboard)/components/CountrySearch";
-import { monthNames, monthsList } from "@/app/(dashboard)/real-data/lib/constants";
-import type { Country, SeriesPoint, SourceRow } from "@/app/(dashboard)/real-data/lib/types";
-import { monthLabel, avg, countryFlag } from "@/app/(dashboard)/real-data/lib/utils";
+import { monthsList } from "@/app/(dashboard)/real-data/lib/constants";
+import type { SourceRow } from "@/app/(dashboard)/real-data/lib/types";
+import { avg, countryFlag } from "@/app/(dashboard)/real-data/lib/utils";
+import type { Country, SeriesPoint } from "@/lib/types";
+import { monthNames } from "@/lib/constants";
+import { monthLabel } from "@/lib/utils";
 
 type YearSelection = "all" | number;
 

@@ -1,18 +1,3 @@
-export type Country = {
-	name: string;
-	gdp: string;
-	import: string;
-	pop: string;
-	flag?: string;
-	// code?: string;
-};
-
-export type SeriesPoint = {
-	name: string;
-	clean: number;
-	fossil: number;
-};
-
 export type SourceRow = {
 	Area: string;
 	Year: number;

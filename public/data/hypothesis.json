@@ -1,0 +1,499 @@
+[
+	{
+		"country": "Argentina",
+		"r": -0.1914,
+		"p": 0.1074,
+		"n": 72,
+		"significant": false
+	},
+	{
+		"country": "Armenia",
+		"r": 0.3134,
+		"p": 0.01476,
+		"n": 60,
+		"significant": true
+	},
+	{
+		"country": "Australia",
+		"r": -0.6276,
+		"p": 2.959e-34,
+		"n": 300,
+		"significant": true
+	},
+	{
+		"country": "Austria",
+		"r": 0.3446,
+		"p": 0.0002606,
+		"n": 108,
+		"significant": true
+	},
+	{
+		"country": "Azerbaijan",
+		"r": 0.2755,
+		"p": 0.0331,
+		"n": 60,
+		"significant": true
+	},
+	{
+		"country": "Bangladesh",
+		"r": 0.6575,
+		"p": 1.154e-08,
+		"n": 60,
+		"significant": true
+	},
+	{
+		"country": "Belarus",
+		"r": -0.5538,
+		"p": 4.433e-06,
+		"n": 60,
+		"significant": true
+	},
+	{
+		"country": "Belgium",
+		"r": 0.7059,
+		"p": 1.451e-17,
+		"n": 108,
+		"significant": true
+	},
+	{
+		"country": "Bolivia",
+		"r": -0.1368,
+		"p": 0.2972,
+		"n": 60,
+		"significant": false
+	},
+	{
+		"country": "Brazil",
+		"r": -0.2683,
+		"p": 0.02268,
+		"n": 72,
+		"significant": true
+	},
+	{
+		"country": "Bulgaria",
+		"r": -0.4843,
+		"p": 1.094e-07,
+		"n": 108,
+		"significant": true
+	},
+	{
+		"country": "Canada",
+		"r": 0.1968,
+		"p": 0.01057,
+		"n": 168,
+		"significant": true
+	},
+	{
+		"country": "Chile",
+		"r": -0.2682,
+		"p": 0.008251,
+		"n": 96,
+		"significant": true
+	},
+	{
+		"country": "China",
+		"r": -0.693,
+		"p": 9.621e-17,
+		"n": 108,
+		"significant": true
+	},
+	{
+		"country": "Colombia",
+		"r": -0.5491,
+		"p": 6.944e-09,
+		"n": 96,
+		"significant": true
+	},
+	{
+		"country": "Costa Rica",
+		"r": 0.4816,
+		"p": 0.01478,
+		"n": 25,
+		"significant": true
+	},
+	{
+		"country": "Croatia",
+		"r": -0.5318,
+		"p": 1.031e-05,
+		"n": 61,
+		"significant": true
+	},
+	{
+		"country": "Cyprus",
+		"r": -0.2124,
+		"p": 0.05238,
+		"n": 84,
+		"significant": false
+	},
+	{
+		"country": "Czechia",
+		"r": -0.1328,
+		"p": 0.1706,
+		"n": 108,
+		"significant": false
+	},
+	{
+		"country": "Denmark",
+		"r": -0.537,
+		"p": 2.084e-09,
+		"n": 108,
+		"significant": true
+	},
+	{
+		"country": "Ecuador",
+		"r": 0.4482,
+		"p": 0.0003296,
+		"n": 60,
+		"significant": true
+	},
+	{
+		"country": "Egypt",
+		"r": -0.3246,
+		"p": 0.001252,
+		"n": 96,
+		"significant": true
+	},
+	{
+		"country": "El Salvador",
+		"r": 0.1801,
+		"p": 0.1685,
+		"n": 60,
+		"significant": false
+	},
+	{
+		"country": "Estonia",
+		"r": 0.2647,
+		"p": 0.00563,
+		"n": 108,
+		"significant": true
+	},
+	{
+		"country": "Finland",
+		"r": 0.0137,
+		"p": 0.9013,
+		"n": 84,
+		"significant": false
+	},
+	{
+		"country": "France",
+		"r": -0.0303,
+		"p": 0.7553,
+		"n": 108,
+		"significant": false
+	},
+	{
+		"country": "Georgia",
+		"r": 0.3154,
+		"p": 0.0001839,
+		"n": 136,
+		"significant": true
+	},
+	{
+		"country": "Germany",
+		"r": -0.5829,
+		"p": 3.638e-11,
+		"n": 108,
+		"significant": true
+	},
+	{
+		"country": "Greece",
+		"r": -0.7081,
+		"p": 1.031e-17,
+		"n": 108,
+		"significant": true
+	},
+	{
+		"country": "Hungary",
+		"r": -0.0869,
+		"p": 0.3709,
+		"n": 108,
+		"significant": false
+	},
+	{
+		"country": "India",
+		"r": -0.2637,
+		"p": 0.04174,
+		"n": 60,
+		"significant": true
+	},
+	{
+		"country": "Ireland",
+		"r": -0.4657,
+		"p": 2.003e-10,
+		"n": 168,
+		"significant": true
+	},
+	{
+		"country": "Italy",
+		"r": -0.4079,
+		"p": 3.703e-05,
+		"n": 96,
+		"significant": true
+	},
+	{
+		"country": "Japan",
+		"r": 0.1442,
+		"p": 0.2372,
+		"n": 69,
+		"significant": false
+	},
+	{
+		"country": "Kazakhstan",
+		"r": 0.4292,
+		"p": 0.0001685,
+		"n": 72,
+		"significant": true
+	},
+	{
+		"country": "Kenya",
+		"r": -0.1822,
+		"p": 0.1636,
+		"n": 60,
+		"significant": false
+	},
+	{
+		"country": "Latvia",
+		"r": 0.5016,
+		"p": 4.333e-08,
+		"n": 106,
+		"significant": true
+	},
+	{
+		"country": "Lithuania",
+		"r": 0.3656,
+		"p": 0.0001001,
+		"n": 108,
+		"significant": true
+	},
+	{
+		"country": "Luxembourg",
+		"r": 0.0679,
+		"p": 0.5708,
+		"n": 72,
+		"significant": false
+	},
+	{
+		"country": "Malaysia",
+		"r": -0.0437,
+		"p": 0.7155,
+		"n": 72,
+		"significant": false
+	},
+	{
+		"country": "Malta",
+		"r": -0.2058,
+		"p": 0.1147,
+		"n": 60,
+		"significant": false
+	},
+	{
+		"country": "Mexico",
+		"r": -0.2115,
+		"p": 0.1048,
+		"n": 60,
+		"significant": false
+	},
+	{
+		"country": "Mongolia",
+		"r": -0.1155,
+		"p": 0.2955,
+		"n": 84,
+		"significant": false
+	},
+	{
+		"country": "Montenegro",
+		"r": -0.2296,
+		"p": 0.02446,
+		"n": 96,
+		"significant": true
+	},
+	{
+		"country": "Morocco",
+		"r": -0.1094,
+		"p": 0.3046,
+		"n": 90,
+		"significant": false
+	},
+	{
+		"country": "Netherlands",
+		"r": -0.6508,
+		"p": 2.462e-14,
+		"n": 108,
+		"significant": true
+	},
+	{
+		"country": "New Zealand",
+		"r": -0.2575,
+		"p": 0.0007531,
+		"n": 168,
+		"significant": true
+	},
+	{
+		"country": "Nigeria",
+		"r": -0.146,
+		"p": 0.2656,
+		"n": 60,
+		"significant": false
+	},
+	{
+		"country": "North Macedonia",
+		"r": 0.4158,
+		"p": 8.367e-05,
+		"n": 84,
+		"significant": true
+	},
+	{
+		"country": "Norway",
+		"r": -0.3304,
+		"p": 0.0004789,
+		"n": 108,
+		"significant": true
+	},
+	{
+		"country": "Pakistan",
+		"r": -0.036,
+		"p": 0.7812,
+		"n": 62,
+		"significant": false
+	},
+	{
+		"country": "Peru",
+		"r": -0.3969,
+		"p": 0.00169,
+		"n": 60,
+		"significant": true
+	},
+	{
+		"country": "Poland",
+		"r": -0.7367,
+		"p": 1.019e-19,
+		"n": 108,
+		"significant": true
+	},
+	{
+		"country": "Portugal",
+		"r": -0.5749,
+		"p": 7.714e-11,
+		"n": 108,
+		"significant": true
+	},
+	{
+		"country": "Puerto Rico",
+		"r": 0.1638,
+		"p": 0.2111,
+		"n": 60,
+		"significant": false
+	},
+	{
+		"country": "Romania",
+		"r": 0.0747,
+		"p": 0.442,
+		"n": 108,
+		"significant": false
+	},
+	{
+		"country": "Serbia",
+		"r": 0.0556,
+		"p": 0.6154,
+		"n": 84,
+		"significant": false
+	},
+	{
+		"country": "Singapore",
+		"r": -0.3981,
+		"p": 3.116e-08,
+		"n": 180,
+		"significant": true
+	},
+	{
+		"country": "Slovakia",
+		"r": -0.6071,
+		"p": 3.271e-12,
+		"n": 108,
+		"significant": true
+	},
+	{
+		"country": "Slovenia",
+		"r": -0.2527,
+		"p": 0.013,
+		"n": 96,
+		"significant": true
+	},
+	{
+		"country": "South Africa",
+		"r": -0.6863,
+		"p": 2.86e-11,
+		"n": 72,
+		"significant": true
+	},
+	{
+		"country": "South Korea",
+		"r": -0.398,
+		"p": 0.001637,
+		"n": 60,
+		"significant": true
+	},
+	{
+		"country": "Spain",
+		"r": -0.5298,
+		"p": 3.738e-09,
+		"n": 108,
+		"significant": true
+	},
+	{
+		"country": "Sri Lanka",
+		"r": 0.7108,
+		"p": 5.812e-17,
+		"n": 102,
+		"significant": true
+	},
+	{
+		"country": "Switzerland",
+		"r": 0.0338,
+		"p": 0.76,
+		"n": 84,
+		"significant": false
+	},
+	{
+		"country": "Taiwan",
+		"r": 0.7381,
+		"p": 8.321e-51,
+		"n": 288,
+		"significant": true
+	},
+	{
+		"country": "Tajikistan",
+		"r": 0.8875,
+		"p": 5.211e-14,
+		"n": 39,
+		"significant": true
+	},
+	{
+		"country": "Thailand",
+		"r": 0.1138,
+		"p": 0.3866,
+		"n": 60,
+		"significant": false
+	},
+	{
+		"country": "Ukraine",
+		"r": -0.1331,
+		"p": 0.2035,
+		"n": 93,
+		"significant": false
+	},
+	{
+		"country": "United Kingdom",
+		"r": -0.5051,
+		"p": 2.485e-08,
+		"n": 108,
+		"significant": true
+	},
+	{
+		"country": "Uruguay",
+		"r": 0.3664,
+		"p": 0.02367,
+		"n": 38,
+		"significant": true
+	}
+]
