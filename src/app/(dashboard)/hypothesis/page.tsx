@@ -141,7 +141,7 @@ const Hypothesis = () => {
 										       tick={{ fontSize: 11, fill: "#64748b" }} tickFormatter={(v: number) => v.toFixed(3)}
 										       label={{ value: "CO₂ intensity", angle: -90, position: "insideLeft", style: { fontSize: 11, fill: "#64748b" } }} />
 										<Tooltip contentStyle={{ borderRadius: "8px", border: "none", boxShadow: "0 4px 6px -1px rgb(0 0 0 / 0.1)" }}
-										         formatter={(v: number | string, n: string) => [Number(v).toFixed(4), n === "y" ? "CO₂ intensity" : n === "yHat" ? "Fitted line" : "Clean %"]} />
+										         formatter={(value, name) => [Number(value ?? 0).toFixed(4), String(name) === "y" ? "CO₂ intensity" : String(name) === "yHat" ? "Fitted line" : "Clean %",]} />
 										<Scatter name="Thailand months" data={h1.scatter} fill="#9333ea" />
 										<Line data={h1.line} type="linear" dataKey="yHat" stroke="#9333ea" strokeWidth={2} strokeDasharray="4 4" dot={false} />
 									</ComposedChart>
@@ -220,7 +220,7 @@ const Hypothesis = () => {
 										<XAxis dataKey="country" interval={0} angle={-70} textAnchor="end" height={60} tick={{ fontSize: 9, fill: "#64748b" }} />
 										<YAxis domain={[-1, 1]} tick={{ fontSize: 11, fill: "#64748b" }} />
 										<Tooltip contentStyle={{ borderRadius: "8px", border: "none", boxShadow: "0 4px 6px -1px rgb(0 0 0 / 0.1)" }}
-										         formatter={(v: number | string) => [Number(v).toFixed(3), "Pearson r"]} />
+										         formatter={(value) => [Number(value ?? 0).toFixed(3), "Pearson r"]} />
 										<ReferenceLine y={0} stroke="#64748b" strokeWidth={1} />
 										<Bar dataKey="r" radius={[2, 2, 0, 0]}>
 											{sortedH1Countries.map((c, i) => (
